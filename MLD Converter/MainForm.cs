@@ -11,15 +11,15 @@ using System.IO;
 
 namespace MLD_Converter
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
             
 
@@ -32,6 +32,18 @@ namespace MLD_Converter
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (!(fileList.Items.Count == 0))
+            {
+                switch (MessageBox.Show("Are you sure you want to clear the current list?", "Confirmation", MessageBoxButtons.YesNo))
+                {
+                    case DialogResult.Yes:
+                        fileList.Items.Clear();
+                        break;
+                    case DialogResult.No:
+                        return;
+                }
+            }
+
             OpenFileDialog openFileDlg = new OpenFileDialog()
             {
                 Filter = "MLD files (*.mld)|*.mld"
@@ -46,13 +58,24 @@ namespace MLD_Converter
 
         private void openDir_Click(object sender, EventArgs e)
         {
+            if (!(fileList.Items.Count == 0))
+            {
+                switch (MessageBox.Show("Are you sure you want to clear the current list?", "Confirmation", MessageBoxButtons.YesNo))
+                {
+                    case DialogResult.Yes:
+                        fileList.Items.Clear();
+                        break;
+                    case DialogResult.No:
+                        return;
+                }
+            }
 
             FolderBrowserDialog openFolderDlg = new FolderBrowserDialog();
 
             DialogResult result = openFolderDlg.ShowDialog(this);
             if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(openFolderDlg.SelectedPath))
             {
-               string[] files = Directory.GetFiles(openFolderDlg.SelectedPath, "*.mld");
+                string[] files = Directory.GetFiles(openFolderDlg.SelectedPath, "*.mld");
 
                 foreach (var item in files)
                 {
