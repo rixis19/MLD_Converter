@@ -79,5 +79,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mldlib\mldlib.csproj">
+      <Project>{fdc57134-4e4a-4efa-8c01-0f0d4f7c67a1}</Project>
+      <Name>mldlib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

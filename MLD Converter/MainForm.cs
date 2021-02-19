@@ -8,11 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using mldlib;
 
 namespace MLD_Converter
 {
     public partial class MainForm : Form
     {
+        mldFunctions converter = new mldFunctions();
 
         public MainForm()
         {
@@ -52,7 +54,7 @@ namespace MLD_Converter
             DialogResult result = openFileDlg.ShowDialog(this);
             if (result == DialogResult.OK)
             {
-                fileList.Items.Add(Path.GetFileName(openFileDlg.FileName), false);
+                fileList.Items.Add(openFileDlg.FileName, false);
             }
         }
 
@@ -91,7 +93,11 @@ namespace MLD_Converter
 
         private void selectConv_Click(object sender, EventArgs e)
         {
-
+            foreach(var item in fileList.CheckedItems)
+            {
+                Console.WriteLine(item.ToString());
+                converter.convertFile(item.ToString());
+            }
         }
 
         private void LoadFile()

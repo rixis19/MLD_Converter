@@ -49,13 +49,13 @@ namespace mldlib
 			public float unkFloat6 { get; set; }
 		}
 
-		public class mldObjectMaster
+		public class mldObjectMaster//Object master, holds each individual anim or ObjectEntry assigned to this object
 		{
 			public int objEntryTotal { get; set; }
 			public mldObjectEntry objEntry { get; set; }
 		}
 
-		public class mldObjectEntry
+		public class mldObjectEntry //Each individual animation and the object that goes with it
 		{
 			public int Object { get; set; }	//Pointer to NJS_OBJECT
 			public int Motion { get; set; }	//Pointer to NJS_MOTION
