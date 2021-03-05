@@ -112,6 +112,7 @@ namespace mldlib
             return texArrPtr;
         }
 
+        //Make mld header
         public mldHeader makeHeader(byte[] arr, bool endian)
         {
             mldHeader header = new mldHeader();
@@ -169,6 +170,7 @@ namespace mldlib
             return obj;
         }
 
+        //Makes mldObject
         public mldObject makeMLDObject(byte[] arr, int cursor, bool endian)
         {
             //Anything commented out is something I cannot find/don't know how to/don't know what it is, for the moment this will provide what I could find
@@ -197,6 +199,7 @@ namespace mldlib
             return mldObj;
         }
 
+        //Makes Object Master - probably will need to change this when I learn where the total is stored, and how to process each different entry
         public mldObjectMaster makeObjMaster(byte[] arr, int cursor, bool endian)
         {
             //Not entirely sure where the entry total is located/how to get it, so this may not be accurate
@@ -210,20 +213,22 @@ namespace mldlib
 
             if (endian)
                 Array.Reverse(b);
-            objMaster.objEntryTotal = BitConverter.ToInt32(b, 0);
+            cursor = BitConverter.ToInt32(b, 0);
 
-            for (int i = 0; i <= 3; i++)
+            /*for (int i = 0; i <= 3; i++)
             {
-                b[i] = arr[i + cursor + 4];
+                b[i] = arr[i + cursor];
             }
 
             if (endian)
                 Array.Reverse(b);
-            cursor = BitConverter.ToInt32(b, 0);
+            objMaster.objEntryTotal = BitConverter.ToInt32(b, 0);*/
+            objMaster.objEntryTotal = 1;
 
             mldObjectEntry[] entryArr = new mldObjectEntry[objMaster.objEntryTotal];
             for(int i = 0; i < objMaster.objEntryTotal; i++)
             {
+                cursor += 4;
                 entryArr[i] = makeObjEntry(arr, cursor, endian);
             }
             objMaster.objEntry = new mldObjectEntry[objMaster.objEntryTotal];
@@ -231,11 +236,21 @@ namespace mldlib
             return objMaster;
         }
 
+        //Makes Object Entry 
         public mldObjectEntry makeObjEntry(byte[] arr, int cursor, bool endian)
         {
+            byte[] b = new byte[4];
+            for (int i = 0; i <= 3; i++)
+            {
+                b[i] = arr[i + cursor];
+            }
+
+            if (endian)
+                Array.Reverse(b);
+            cursor = BitConverter.ToInt32(b, 0);
+
             mldObjectEntry objEntry = new mldObjectEntry();
 
-            byte[] b = new byte[4];
             for (int i = 0; i <= 3; i++)
             {
                 b[i] = arr[i + cursor];
@@ -262,10 +277,11 @@ namespace mldlib
             if (endian)
                 Array.Reverse(b);
             objEntry.TexList = BitConverter.ToInt32(b, 0) + cursor;
-            
+
             return objEntry;
         }
 
+        //Gets Object name
         public string getObjName(byte[] arr, int cursor, bool endian)
         {
             byte[] b = new byte[12];
@@ -280,6 +296,7 @@ namespace mldlib
             return Encoding.ASCII.GetString(b);
         }
 
+        //Gets the index of the file
         public int getIndex(byte[] arr, int cursor, bool endian)
         {
             byte[] b = new byte[4];
@@ -294,6 +311,8 @@ namespace mldlib
 
             return index;
         }
+
+        //File conversion, very basic functionality for the moment
         public void convertFile(string file)
         {
             bool endianness = checkEndianness(file);
