@@ -14,16 +14,16 @@ namespace mldlib
 	{
 		public class mldHeader
 		{
-			public int objTotal { get; set; }       //Total Objects in File
+			public int objTotal { get; set; }       //Total Objects in File - Done
 			[Browsable(false)]
-			public mldObject objTable { get; set; } //mldObject Pointer to array of objects in file.
+			public mldObject[] objTable { get; set; } //mldObject Pointer to array of objects in file. - Done
 			[Browsable(false)]
-			public int objTable_eof { get; set; }   //Points to the end of the mldOject array. Might be a size value instead of pointer.
+			public int objTable_eof { get; set; }   //Points to the end of the mldOject array. Might be a size value instead of pointer. - Done
 			[Browsable(false)]
-			public int grndInfo { get; set; }       //Points to just prior to the main data start. Points to GRND array in Level files.
+			public int grndInfo { get; set; }       //Points to just prior to the main data start. Points to GRND array in Level files. - 
 			[Browsable(false)]
-			public int texArr { get; set; }         //Pointer to the total for the mldTexname structure which is just before the mldTexname array.
-			public string NMLD { get; set; }        //NMLD string, only exists in MLD files with more than one object.
+			public int texArr { get; set; }         //Pointer to the total for the mldTexname structure which is just before the mldTexname array. - Done
+			public string NMLD { get; set; }        //NMLD string, only exists in MLD files with more than one object. - Done
 		}
 
 		public class mldObject
@@ -52,7 +52,7 @@ namespace mldlib
 		public class mldObjectMaster//Object master, holds each individual anim or ObjectEntry assigned to this object
 		{
 			public int objEntryTotal { get; set; }
-			public mldObjectEntry objEntry { get; set; }
+			public mldObjectEntry[] objEntry { get; set; }
 		}
 
 		public class mldObjectEntry //Each individual animation and the object that goes with it
